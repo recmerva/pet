@@ -76,6 +76,8 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; colo
 button:disabled{ cursor: not-allowed; }
 code{ font-family: var(--mono); }
 
+[hidden]{ display: none !important; }
+
 .visually-hidden{
   position:absolute; width:1px; height:1px; overflow:hidden;
   clip:rect(0,0,0,0); white-space:nowrap; border:0; padding:0; margin:-1px;
@@ -160,6 +162,10 @@ main{ animation: pageIn .55s var(--ease-out) backwards; }
   font-size: 0.82rem;
 }
 .btn-block{ width: 100%; }
+.add-to-cart{ background: var(--forest); color: var(--cream); }
+.add-to-cart:hover{ background: var(--gold); color: var(--forest-2); transform: translateY(-2px); }
+.add-to-cart svg{ transition: transform .3s var(--ease-spring); }
+.add-to-cart:hover svg{ transform: rotate(-12deg) scale(1.15); }
 .btn-disabled, .btn:disabled{
   background: var(--cream-2);
   color: rgba(34,32,27,0.45);
@@ -695,7 +701,8 @@ main{ animation: pageIn .55s var(--ease-out) backwards; }
 .product-link:hover{ color: var(--forest); }
 .product-link:focus-visible{ outline: none; }
 .product-link:focus-visible::after{ outline: 3px solid var(--gold-dark); outline-offset: 3px; }
-.product-card .btn, .product-card .wish-btn{ position: relative; z-index: 2; }
+.product-card .btn{ position: relative; z-index: 2; }
+.product-card .wish-btn{ z-index: 3; }
 
 .product-rating{ display:flex; align-items:center; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
 .rating-count{ font-size: .75rem; color: var(--ink-soft); }
@@ -1827,8 +1834,6 @@ fieldset.has-error .pay-card{ border-color: var(--coral); }
 .faq-a > div{ overflow: hidden; }
 .faq-a p{ padding: 0 22px 20px; margin: 0; color: var(--ink-soft); }
 .faq-item.is-open .faq-a{ grid-template-rows: 1fr; }
-.faq-a[hidden]{ display: grid; }
-.faq-a.no-js-hidden{ display:none; }
 
 /* =========================================================
    15. 404

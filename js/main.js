@@ -454,7 +454,7 @@
    * Kartica proizvoda (koristi se na početnoj, u prodavnici i kod sličnih proizvoda).
    * Cela kartica je klikabilna preko „rastegnutog” linka u naslovu.
    */
-  function karticaProizvoda(p, indeks = 0) {
+  function karticaProizvoda(p, indeks = 0, dodatnaKlasa = '') {
     const nema = p.naStanju <= 0;
     const stanje = stanjeProizvoda(p);
     const dugme = nema
@@ -462,7 +462,7 @@
       : `<button class="btn btn-small add-to-cart" type="button" data-dodaj="${p.id}">${IKONE.korpa}<span>Dodaj<span class="hide-xs"> u korpu</span></span><span class="visually-hidden">: ${escapeHtml(p.naziv)}</span></button>`;
 
     return `
-      <article class="product-card${nema ? ' is-out' : ''}" style="--i:${indeks}" data-id="${p.id}">
+      <article class="product-card${nema ? ' is-out' : ''}${dodatnaKlasa ? ' ' + dodatnaKlasa : ''}" style="--i:${indeks}" data-id="${p.id}">
         ${oznakeHtml(p)}
         ${dugmeZelje(p)}
         <div class="product-thumb" aria-hidden="true"><span class="product-emoji">${p.emoji}</span></div>
