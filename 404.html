@@ -10,7 +10,8 @@
 <script>
   if (location.protocol !== 'file:' && location.pathname.split('/').length > 2) {
     const baza = document.createElement('base');
-    baza.href = '/';
+    // GitHub Pages: sajt je u podfolderu /<repo>/, ostali hostinzi: koren domena
+    baza.href = location.hostname.endsWith('github.io') ? '/' + location.pathname.split('/')[1] + '/' : '/';
     document.head.appendChild(baza);
     document.addEventListener('click', (e) => {
       const a = e.target.closest('a[href^="#"]');
