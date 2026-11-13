@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="sr-Latn" data-nivo="stranice" data-stranica="placanje.html">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plaćanje — Šapa pet shop</title>
+<meta name="description" content="Unesi podatke za dostavu za svoju Šapa porudžbinu. Plaćanje je pouzećem.">
+<meta name="theme-color" content="#1F3A34">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#sadrzaj">Preskoči na sadržaj</a>
+
+<!-- ================= HEADER (isti na svim stranicama) ================= -->
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-inner">
+    <a href="../index.html" class="logo" aria-label="Šapa — početna">
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="17" cy="21" r="7.5" fill="var(--gold)"/>
+          <circle cx="7" cy="12" r="3.4" fill="var(--gold)"/>
+          <circle cx="16" cy="7" r="3.4" fill="var(--gold)"/>
+          <circle cx="25" cy="10" r="3.4" fill="var(--gold)"/>
+          <circle cx="29" cy="17" r="3" fill="var(--gold)"/>
+        </svg>
+      <span>Šapa</span>
+    </a>
+
+    <nav class="main-nav" id="mainNav" aria-label="Glavna navigacija">
+      <a href="../index.html">Početna</a>
+      <a href="prodavnica.html">Prodavnica</a>
+      <a href="saveti.html">Saveti</a>
+      <a href="../index.html#o-nama">O nama</a>
+      <a href="kontakt.html">Kontakt</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" id="wishBtn" type="button" data-open-drawer="wishDrawer" aria-haspopup="dialog" aria-controls="wishDrawer" aria-expanded="false" aria-label="Lista želja">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-4.35-9.5-8.8C.7 8.4 2.4 5 6 5c2 0 3.3 1 4 2.2C10.7 6 12 5 14 5c3.6 0 5.3 3.4 3.5 7.2C15 16.65 12 21 12 21Z"/></svg>
+        <span class="cart-count wish-count" id="wishCount" aria-hidden="true">0</span>
+      </button>
+      <button class="icon-btn" id="cartBtn" type="button" data-open-drawer="cartDrawer" aria-haspopup="dialog" aria-controls="cartDrawer" aria-expanded="false" aria-label="Korpa">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 4h2l2.4 12.4a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="9.5" cy="20.5" r="1.4"/><circle cx="17" cy="20.5" r="1.4"/></svg>
+        <span class="cart-count" id="cartCount" aria-hidden="true">0</span>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Otvori meni" aria-expanded="false" aria-controls="mainNav" type="button">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="sadrzaj" tabindex="-1">
+
+  <section class="page-hero">
+    <div class="wrap">
+      <nav class="breadcrumb" aria-label="Putanja">
+        <ol>
+          <li><a href="../index.html">Početna</a></li>
+          <li><a href="korpa.html">Korpa</a></li>
+          <li aria-current="page">Plaćanje</li>
+        </ol>
+      </nav>
+      <h1>Plaćanje i dostava</h1>
+      <p>Još samo korak — unesi podatke za dostavu, a plaćaš kuriru pri preuzimanju.</p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+
+      <div class="empty-box" id="checkoutEmpty" hidden>
+        <span class="empty-emoji" aria-hidden="true">🧺</span>
+        <h2>Korpa je prazna</h2>
+        <p>Za plaćanje je potrebno da u korpi bude bar jedan proizvod.</p>
+        <a href="prodavnica.html" class="btn btn-primary">Idi u prodavnicu</a>
+      </div>
+
+      <div class="checkout-layout" id="checkoutFull" hidden>
+
+        <form class="card" id="checkoutForm" novalidate aria-labelledby="formTitle">
+          <h2 id="formTitle">Podaci za dostavu</h2>
+          <p class="hint form-intro">Polja označena sa <span class="req" aria-hidden="true">*</span><span class="visually-hidden">zvezdicom</span> su obavezna.</p>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="ime">Ime <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="ime" name="ime" autocomplete="given-name" required maxlength="50" aria-describedby="greska-ime">
+              <p class="field-error" id="greska-ime"></p>
+            </div>
+            <div class="field">
+              <label for="prezime">Prezime <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="prezime" name="prezime" autocomplete="family-name" required maxlength="50" aria-describedby="greska-prezime">
+              <p class="field-error" id="greska-prezime"></p>
+            </div>
+            <div class="field">
+              <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
+              <input type="email" id="email" name="email" autocomplete="email" required maxlength="100" aria-describedby="hint-email greska-email">
+              <p class="hint" id="hint-email">Na ovu adresu šaljemo potvrdu porudžbine.</p>
+              <p class="field-error" id="greska-email"></p>
+            </div>
+            <div class="field">
+              <label for="telefon">Telefon <span class="req" aria-hidden="true">*</span></label>
+              <input type="tel" id="telefon" name="telefon" autocomplete="tel" inputmode="tel" required maxlength="20" placeholder="060 123 4567" aria-describedby="hint-telefon greska-telefon">
+              <p class="hint" id="hint-telefon">Npr. 060 123 4567 ili +381 60 123 4567.</p>
+              <p class="field-error" id="greska-telefon"></p>
+            </div>
+            <div class="field full">
+              <label for="adresa">Ulica i broj <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="adresa" name="adresa" autocomplete="street-address" required maxlength="120" aria-describedby="greska-adresa">
+              <p class="field-error" id="greska-adresa"></p>
+            </div>
+            <div class="field">
+              <label for="grad">Grad <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="grad" name="grad" autocomplete="address-level2" required maxlength="60" aria-describedby="greska-grad">
+              <p class="field-error" id="greska-grad"></p>
+            </div>
+            <div class="field">
+              <label for="postanskiBroj">Poštanski broj <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="postanskiBroj" name="postanskiBroj" autocomplete="postal-code" inputmode="numeric" required maxlength="5" placeholder="36300" aria-describedby="greska-postanskiBroj">
+              <p class="field-error" id="greska-postanskiBroj"></p>
+            </div>
+            <div class="field full">
+              <label for="napomena">Napomena za dostavu <span class="optional">(nije obavezno)</span></label>
+              <textarea id="napomena" name="napomena" rows="3" maxlength="300" placeholder="Npr. sprat, interfon, najbolje vreme za dostavu…" aria-describedby="napomenaBrojac"></textarea>
+              <p class="hint" id="napomenaBrojac" aria-live="polite">0 / 300</p>
+            </div>
+
+            <div class="full">
+              <p class="field-label" id="placanjeNaslov">Način plaćanja</p>
+              <div class="pay-card is-selected" aria-labelledby="placanjeNaslov">
+                <span class="pay-emoji" aria-hidden="true">💵</span>
+                <span><strong>Plaćanje pouzećem</strong><small>Plaćaš kuriru gotovinom pri preuzimanju paketa. Ništa ne plaćaš unapred.</small></span>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block form-submit" id="submitOrder">
+            Potvrdi porudžbinu
+          </button>
+          <p class="secure-note secure-note--form"><span aria-hidden="true">🔒</span> Tvoji podaci ostaju samo u ovom pregledaču.</p>
+        </form>
+
+        <aside class="card summary" aria-labelledby="sumTitle">
+          <div class="section-head summary-head">
+            <h2 id="sumTitle">Tvoja porudžbina</h2>
+            <a href="korpa.html" class="text-link summary-edit">Izmeni</a>
+          </div>
+          <ul class="summary-items" id="checkoutItems"></ul>
+          <div id="checkoutShip"></div>
+          <dl class="summary-rows" id="checkoutRows"></dl>
+          <p class="hint" id="deliveryEstimate"></p>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Prozor „obrada porudžbine” -->
+  <div class="processing" id="processing" hidden>
+    <div class="processing-box" role="status" aria-live="assertive">
+      <div class="paw-loader" aria-hidden="true"><span>🐾</span><span>🐾</span><span>🐾</span></div>
+      <p class="processing-text" id="processingText">Obrađujemo porudžbinu…</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- ================= FOOTER (isti na svim stranicama) ================= -->
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <a href="../index.html" class="logo logo-footer">
+        <svg width="30" height="30" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="17" cy="21" r="7.5" fill="var(--gold)"/>
+          <circle cx="7" cy="12" r="3.4" fill="var(--gold)"/>
+          <circle cx="16" cy="7" r="3.4" fill="var(--gold)"/>
+          <circle cx="25" cy="10" r="3.4" fill="var(--gold)"/>
+          <circle cx="29" cy="17" r="3" fill="var(--gold)"/>
+        </svg>
+        <span>Šapa</span>
+      </a>
+      <p>Pet shop iz Novog Pazara koji dostavlja širom Srbije od 2014. godine.</p>
+    </div>
+
+    <div class="footer-col">
+      <h3>Brzi linkovi</h3>
+      <ul>
+        <li><a href="prodavnica.html">Prodavnica</a></li>
+        <li><a href="prodavnica.html?popust=1">Akcije</a></li>
+        <li><a href="saveti.html">Saveti za ljubimce</a></li>
+        <li><a href="korpa.html">Korpa</a></li>
+        <li><a href="kontakt.html#faq">Česta pitanja</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Kontakt</h3>
+      <ul>
+        <li>Ulica Šapa bb, Novi Pazar</li>
+        <li><a href="tel:+381601234567">+381 60 123 4567</a></li>
+        <li><a href="mailto:info@sapa.rs">info@sapa.rs</a></li>
+        <li>Pon–Sub: 09–20h</li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Prati nas</h3>
+      <div class="social-row">
+        <a href="https://www.instagram.com/" class="icon-btn" target="_blank" rel="noopener noreferrer" aria-label="Instagram (otvara se u novom tabu)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+        </a>
+        <a href="https://www.facebook.com/" class="icon-btn" target="_blank" rel="noopener noreferrer" aria-label="Facebook (otvara se u novom tabu)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M15 8h-2a2 2 0 0 0-2 2v10M9 13h4"/><path d="M20 12a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/" class="icon-btn" target="_blank" rel="noopener noreferrer" aria-label="TikTok (otvara se u novom tabu)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14 4v10.5a3.5 3.5 0 1 1-3-3.46"/><path d="M14 4c.6 2.3 2.2 3.7 4.5 4"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap footer-bottom">
+    <p>© <span id="year">2026</span> Šapa pet shop. Sva prava zadržana.</p>
+    <p>Napravljeno sa 🐾 u Novom Pazaru.</p>
+  </div>
+</footer>
+
+<!-- ================= PANELI, TOAST, NAZAD NA VRH (zajedničko) ================= -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<aside class="drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-labelledby="cartDrawerTitle" aria-hidden="true" tabindex="-1">
+  <div class="drawer-head">
+    <h2 id="cartDrawerTitle"><span aria-hidden="true">🧺</span> Tvoja korpa</h2>
+    <button class="icon-btn" type="button" data-close-drawer aria-label="Zatvori korpu">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <div class="drawer-body" id="cartDrawerBody"></div>
+  <div class="drawer-foot" id="cartDrawerFoot"></div>
+</aside>
+
+<aside class="drawer" id="wishDrawer" role="dialog" aria-modal="true" aria-labelledby="wishDrawerTitle" aria-hidden="true" tabindex="-1">
+  <div class="drawer-head">
+    <h2 id="wishDrawerTitle"><span aria-hidden="true">💛</span> Lista želja</h2>
+    <button class="icon-btn" type="button" data-close-drawer aria-label="Zatvori listu želja">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <div class="drawer-body" id="wishDrawerBody"></div>
+  <div class="drawer-foot" id="wishDrawerFoot"></div>
+</aside>
+
+<button class="back-to-top" id="backToTop" aria-label="Nazad na vrh" type="button">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../js/data.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/stranice/placanje.js"></script>
+</body>
+</html>

@@ -212,7 +212,16 @@
 
   const nazivKategorije = (kljuc) => (kategorije[kljuc] ? kategorije[kljuc].naziv : kljuc);
   const nazivPotkategorije = (kljuc) => potkategorije[kljuc] || kljuc;
-  const urlProizvoda = (p) => `proizvod.html?id=${encodeURIComponent(p.id)}`;
+  /* Putanje: index.html i 404.html su u korenu sajta, ostale stranice u folderu
+     stranice/. Atribut <html data-nivo="koren|stranice"> kaže gde je trenutna
+     stranica, pa linkovi koje pravi JS uvek vode na pravo mesto. */
+  const naKorenu = document.documentElement.dataset.nivo === 'koren';
+  function stranica(ime) {
+    if (/^(index|404)\.html/.test(ime)) return (naKorenu ? '' : '../') + ime;
+    return (naKorenu ? 'stranice/' : '') + ime;
+  }
+
+  const urlProizvoda = (p) => stranica(`proizvod.html?id=${encodeURIComponent(p.id)}`);
 
 
   /* =======================================================
@@ -491,6 +500,33 @@
       </div>`;
   }
 
+  /**
+   * Redovi obračuna (dl): međuzbir, popust, dostava, ukupno.
+   * Prima objekat iz obracun() ili sačuvanu porudžbinu (ista polja).
+   */
+  function redoviObracuna(obr) {
+    const kod = obr.kupon && (obr.kupon.kod || obr.kupon);
+    return `
+      <div class="summary-row"><dt>Međuzbir (${brojProizvoda(obr.brojKomada)})</dt><dd>${formatCena(obr.medjuzbir)}</dd></div>
+      ${obr.popust ? `<div class="summary-row is-discount"><dt>Popust${kod ? ` (${escapeHtml(kod)})` : ''}</dt><dd>−${formatCena(obr.popust)}</dd></div>` : ''}
+      <div class="summary-row"><dt>Dostava</dt><dd>${obr.dostava ? formatCena(obr.dostava) : '<span class="stock-mini stock-in">Besplatna</span>'}</dd></div>
+      <div class="summary-row is-total"><dt>Ukupno za plaćanje</dt><dd data-iznos="${obr.ukupno}">${formatCena(obr.ukupno)}</dd></div>`;
+  }
+
+  /** Iznos „odbrojava” od stare do nove vrednosti (npr. kada se promeni količina). */
+  function animirajIznos(el, staro, novo) {
+    if (!el || staro === novo || manjeAnimacija() || isNaN(staro)) { if (el) el.textContent = formatCena(novo); return; }
+    const pocetak = performance.now();
+    const trajanje = 450;
+    const korak = (sada) => {
+      const t = Math.min(1, (sada - pocetak) / trajanje);
+      el.textContent = formatCena(staro + (novo - staro) * (1 - Math.pow(1 - t, 3)));
+      if (t < 1) requestAnimationFrame(korak);
+    };
+    requestAnimationFrame(korak);
+    poskoci(el, 'bump');
+  }
+
   /** Birač količine za stavku korpe (radi preko delegiranih događaja ispod). */
   function biracKolicine(p, kolicina) {
     const naziv = escapeHtml(p.naziv);
@@ -504,7 +540,7 @@
 
   /** Kartica saveta (početna i saveti.html). */
   const sviSaveti = (typeof SAVETI !== 'undefined' && Array.isArray(SAVETI)) ? SAVETI : [];
-  const urlSaveta = (s) => `saveti.html?id=${encodeURIComponent(s.id)}`;
+  const urlSaveta = (s) => stranica(`saveti.html?id=${encodeURIComponent(s.id)}`);
 
   function karticaSaveta(s, indeks = 0) {
     return `
@@ -692,7 +728,7 @@
         <div class="drawer-empty">
           <span class="drawer-empty-emoji" aria-hidden="true">🧺</span>
           <p>Korpa je prazna.<br>Hajde da je napunimo nečim lepim!</p>
-          <a href="prodavnica.html" class="btn btn-primary btn-small">Idi u prodavnicu</a>
+          <a href="${stranica('prodavnica.html')}" class="btn btn-primary btn-small">Idi u prodavnicu</a>
         </div>`;
       dno.innerHTML = '';
       return;
@@ -715,7 +751,7 @@
     dno.innerHTML = `
       <div class="drawer-total"><span>Međuzbir (${brojProizvoda(obr.brojKomada)})</span><strong>${formatCena(obr.medjuzbir)}</strong></div>
       <p class="drawer-note">Dostava i kuponi se obračunavaju u korpi.</p>
-      <a href="korpa.html" class="btn btn-primary btn-block">Idi u korpu</a>
+      <a href="${stranica('korpa.html')}" class="btn btn-primary btn-block">Idi u korpu</a>
       <button type="button" class="btn btn-ghost btn-block" data-close-drawer>Nastavi kupovinu</button>`;
   }
 
@@ -730,7 +766,7 @@
         <div class="drawer-empty">
           <span class="drawer-empty-emoji" aria-hidden="true">💛</span>
           <p>Lista želja je prazna.<br>Klikni na srce na proizvodu da ga sačuvaš za kasnije.</p>
-          <a href="prodavnica.html" class="btn btn-primary btn-small">Pogledaj proizvode</a>
+          <a href="${stranica('prodavnica.html')}" class="btn btn-primary btn-small">Pogledaj proizvode</a>
         </div>`;
       dno.innerHTML = '';
       return;
@@ -790,15 +826,15 @@
     });
   }
 
-  /** Označava aktivni link u navigaciji na osnovu imena fajla. */
+  /** Označava aktivni link u navigaciji. Ime stranice dolazi iz
+      <html data-stranica="…">, pa ne zavisi od adrese u pregledaču. */
   function oznaciAktivniLink() {
-    let fajl = window.location.pathname.split('/').pop() || 'index.html';
-    if (!fajl.includes('.')) fajl = 'index.html';
+    const fajl = document.documentElement.dataset.stranica || '';
     // proizvod pripada prodavnici, korpa/plaćanje/potvrda nemaju link u meniju
     const mapa = { 'proizvod.html': 'prodavnica.html' };
     const cilj = mapa[fajl] || fajl;
     document.querySelectorAll('.main-nav a').forEach(a => {
-      const href = (a.getAttribute('href') || '').split('#')[0].split('?')[0];
+      const href = (a.getAttribute('href') || '').split(/[?#]/)[0].split('/').pop();
       if (href === cilj && !(a.getAttribute('href') || '').includes('#')) a.setAttribute('aria-current', 'page');
     });
   }
@@ -898,7 +934,7 @@
       forma.innerHTML = `
         <p class="newsletter-done" role="status">
           <span class="newsletter-check" aria-hidden="true">✓</span>
-          <span>Prijavljen/a si kao <strong>${escapeHtml(email)}</strong>.<br>Tvoj kod za popust: <code class="coupon-code">SAPA10</code></span>
+          <span>Prijava je aktivna za <strong>${escapeHtml(email)}</strong>.<br>Tvoj kod za popust: <code class="coupon-code">SAPA10</code></span>
         </p>`;
     };
 
@@ -1140,19 +1176,17 @@
      JAVNI API
      ======================================================= */
   window.Sapa = {
-    KLJUCEVI, DOSTAVA, KUPONI,
+    KLJUCEVI, DOSTAVA,
     skladiste,
     formatCena, formatDecimal, formatDatum, isoDatum, dodajRadneDane, mnozina, brojProizvoda,
     escapeHtml, normalizuj, parametri, azurirajUrl, manjeAnimacija,
     proizvodi, kategorije, potkategorije,
-    nadjiProizvod, procenatPopusta, nazivKategorije, nazivPotkategorije, urlProizvoda, izdvojeniProizvodi,
-    ucitajKorpu, dodajUKorpu, postaviKolicinu, ukloniIzKorpe, isprazniKorpu, brojUKorpi, stavkeKorpe,
-    proveriKupon, primeniKupon, ukloniKupon, obracun,
-    ucitajZelje, jeUZeljama, prebaciZelju,
-    saveti, urlSaveta, karticaSaveta,
-    IKONE, zvezdice, stanjeProizvoda, cenaHtml, oznakeHtml, dugmeZelje, karticaProizvoda, trakaDostave, biracKolicine,
-    toast, poskoci, letiUKorpu, prasakSrca,
-    otvoriPanel, zatvoriPanel, otkrivaj,
+    stranica, nadjiProizvod, procenatPopusta, nazivKategorije, nazivPotkategorije, urlProizvoda, izdvojeniProizvodi,
+    ucitajKorpu, ukloniIzKorpe, isprazniKorpu,
+    primeniKupon, ukloniKupon, obracun,
+    jeUZeljama, saveti, karticaSaveta,
+    IKONE, zvezdice, stanjeProizvoda, cenaHtml, oznakeHtml, karticaProizvoda, trakaDostave, biracKolicine, redoviObracuna, animirajIznos,
+    toast, poskoci, otkrivaj,
     PROVERE, validacija
   };
 })();
