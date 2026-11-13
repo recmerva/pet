@@ -16,6 +16,7 @@ Kontakt: Kontakt forma, podaci o prodavnici, mapa lokacije i odgovori na najče�
 Tehnologije
 Na projektu koristim sledeće tehnologije:
 
+
 Frontend: HTML5, CSS3, JavaScript (ES6+)
 Čuvanje podataka: localStorage
 Fontovi: Google Fonts (Fredoka, Work Sans, IBM Plex Mono)
