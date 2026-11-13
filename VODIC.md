@@ -1,5 +1,7 @@
 # Šapa — vodič kroz projekat
 
+**Sajt:** https://recmerva.github.io/pet/ · **Kod:** https://github.com/recmerva/pet
+
 ## Ukratko 
 
 Šapa je statični pet shop od 9 HTML stranica, jednog CSS fajla i čistog JavaScript-a, bez frameworka, build alata i servera. Sve što kupac uradi (korpa, lista želja, porudžbine, prijava na newsletter) čuva se u `localStorage`-u njegovog pregledača.
@@ -14,7 +16,7 @@ Header, footer i bočni paneli su isti tekst u svih 9 HTML fajlova. Kada nešto 
 
 ## Struktura foldera
 
-Svaki tip fajla ima svoj folder. Samo dve HTML stranice stoje u korenu, jer ih hosting (Vercel, GitHub Pages) tamo traži: `index.html` se otvara na adresi „/”, a `404.html` se prikazuje za svaku adresu koja ne postoji.
+Svaki tip fajla ima svoj folder. Samo dve HTML stranice stoje u korenu, jer ih hosting (GitHub Pages) tamo traži: `index.html` se otvara na adresi „/”, a `404.html` se prikazuje za svaku adresu koja ne postoji.
 
 ```
 /
@@ -261,7 +263,7 @@ Porudžbina se nigde ne šalje: nema servera ni emaila. To je demo prodavnica.
 | `sapa_porudzbine` | poslednjih 20 porudžbina |
 | `sapa_newsletter` | `{ email, datum }` posle prijave |
 
-Podaci su vezani za pregledač i adresu. Lokalni sajt i sajt na Vercel-u imaju odvojene korpe. Za čist početak u konzoli pregledača (F12) pokreni `localStorage.clear()`.
+Podaci su vezani za pregledač i adresu. Lokalni sajt i sajt na GitHub Pages-u imaju odvojene korpe. Za čist početak u konzoli pregledača (F12) pokreni `localStorage.clear()`.
 
 ## Animacije
 
@@ -322,19 +324,19 @@ Pažnja na putanje: u `index.html` i `404.html` link glasi `stranice/korpa.html`
 
 Ako je stranica bila otvorena pre veće promene fajlova, pritisni **Ctrl+F5**. Stari tab čuva staru verziju i njene linkove. Na primer, posle premeštanja stranica u `stranice/` stari tab je i dalje tražio `prodavnica.html` u korenu i javljao „not found”.
 
-### Na Vercel-u
+### Na internetu (GitHub Pages)
 
-Sajt na Vercel-u je povezan sa GitHub repozitorijumom i objavljuje ono što je **poslato na GitHub** (grana `main`). Izmene na računaru se ne vide dok ih ne commit-uješ i push-uješ. Zato sajt na Vercel-u još uvek prikazuje staru verziju.
+Sajt je objavljen na **https://recmerva.github.io/pet/**. GitHub Pages objavljuje ono što je **poslato na GitHub** (grana `main`, koren repozitorijuma). Izmene na računaru se ne vide dok ih ne commit-uješ i push-uješ:
 
 ```
 git add -A
-git commit -m "Organizacija foldera, stranice u stranice/, čišćenje koda"
+git commit -m "commit"
 git push
 ```
 
-Posle minut-dva Vercel sam objavi novu verziju. Podešavanja ne treba menjati: nema build koraka i Vercel samo servira fajlove.
+Posle minut-dva nova verzija je na sajtu. Nema build koraka; GitHub samo servira fajlove. Status objave vidiš na GitHub-u, u repozitorijumu pod **Actions** ili **Settings → Pages**.
 
-Na Vercel-u `404.html` sam hvata svaku nepostojeću adresu. Na dubljim adresama (npr. `/stranice/nesto`) 404 stranica vodi putanje od korena sajta, pa i tamo ima stilove i ispravne linkove.
+Sajt je u podfolderu `/pet/`, zato su svi linkovi relativni. `404.html` se prikazuje za svaku nepostojeću adresu, a i na dubljim adresama (npr. `/pet/stranice/nesto`) sam vodi putanje od `/pet/`, pa ima stilove i ispravne linkove.
 
 ### Provera posle objave
 
@@ -348,7 +350,7 @@ Na Vercel-u `404.html` sam hvata svaku nepostojeću adresu. Na dubljim adresama 
 
 ## Uvodna priča (oko 1 minut)
 
-> Šapa je online prodavnica za kućne ljubimce iz Novog Pazara. Ima 9 stranica: početnu, prodavnicu sa filterima, stranicu proizvoda, korpu, plaćanje, potvrdu porudžbine, savete, kontakt i 404. Napravljena je u čistom HTML-u, CSS-u i JavaScript-u, bez frameworka i bez servera. Ponuda je u jednom fajlu sa 30 proizvoda u 5 kategorija. Sve što kupac uradi, korpa, lista želja i porudžbine, čuva se u `localStorage`-u pregledača. Zato sajt radi i kad se otvori direktno iz foldera, a objavljen je na Vercel-u. Posebno sam pazila na responsive prikaz, pristupačnost (tastatura, čitači ekrana) i animacije, koje se gase ako korisnik u sistemu traži manje pokreta.
+> Šapa je online prodavnica za kućne ljubimce iz Novog Pazara. Ima 9 stranica: početnu, prodavnicu sa filterima, stranicu proizvoda, korpu, plaćanje, potvrdu porudžbine, savete, kontakt i 404. Napravljena je u čistom HTML-u, CSS-u i JavaScript-u, bez frameworka i bez servera. Ponuda je u jednom fajlu sa 30 proizvoda u 5 kategorija. Sve što kupac uradi, korpa, lista želja i porudžbine, čuva se u `localStorage`-u pregledača. Zato sajt radi i kad se otvori direktno iz foldera, a objavljen je na GitHub Pages-u. Posebno sam pazila na responsive prikaz, pristupačnost (tastatura, čitači ekrana) i animacije, koje se gase ako korisnik u sistemu traži manje pokreta.
 
 ## Demonstracija (3–5 minuta)
 
@@ -577,8 +579,7 @@ Odgovori iskreno. Važno je da pokažeš da razumeš kod: otvori bilo koji deo i
 
 ## Ček-lista pre odbrane
 
-- [ ] Posle ponoći: `git add -A`, `git commit`, `git push`.
-- [ ] Na Vercel-u proveri: meni, ceo tok kupovine, 404, prikaz na telefonu.
+- [ ] Na https://recmerva.github.io/pet/ proveri: meni, ceo tok kupovine, 404, prikaz na telefonu.
 - [ ] Na računaru za odbranu otvori sajt i pokreni `localStorage.clear()`, da korpa bude prazna.
 - [ ] Imaj projekat i lokalno (USB ili folder), u slučaju da nema interneta.
 - [ ] U VS Code-u unapred otvori `main.js`, `data.js`, `prodavnica.js` i `style.css`.

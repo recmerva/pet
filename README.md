@@ -1,5 +1,7 @@
 Šapa je web aplikacija online prodavnice za kućne ljubimce, namenjena prodaji hrane, opreme i igračaka za pse, mačke, ptice, ribice i glodare. Cilj projekta je da kupcima omogući jednostavno, pregledno i prijatno iskustvo kupovine, od pretrage proizvoda do potvrde porudžbine.
 
+🔗 Sajt: https://recmerva.github.io/pet/
+
 Aplikaciju sam razvila kao front-end projekat, bez backenda, pri čemu se kompletna logika prodavnice izvršava na klijentskoj strani, a podaci o korpi, listi želja i porudžbinama čuvaju se u pregledaču korisnika.
 
 Glavne funkcionalnosti
