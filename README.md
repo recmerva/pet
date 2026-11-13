@@ -10,7 +10,7 @@ Pretraga: Pretraga proizvoda po nazivu u realnom vremenu, uz čuvanje filtera u 
 Stranica proizvoda: Detaljan prikaz proizvoda sa opisom, karakteristikama, cenom, stanjem na lageru, recenzijama kupaca i predlogom sličnih proizvoda.
 Korpa: Dodavanje, izmena količine i uklanjanje proizvoda, automatsko računanje ukupne cene i troškova dostave, uz besplatnu dostavu za porudžbine preko 3.000 dinara.
 Kupon kodovi: Unos promotivnih kodova za popust uz proveru uslova za njihovo korišćenje.
-Porudžbina: Forma za unos podataka o kupcu sa validacijom, izbor načina plaćanja i potvrda porudžbine sa brojem i okvirnim datumom isporuke.
+Porudžbina: Forma za unos podataka o kupcu sa validacijom, plaćanje pouzećem i potvrda porudžbine sa brojem i okvirnim datumom isporuke.
 Lista želja: Čuvanje omiljenih proizvoda za kasniju kupovinu.
 Saveti: Blog sekcija sa savetima za ishranu, negu i opremu ljubimaca, uz filtriranje po vrsti ljubimca.
 Kontakt: Kontakt forma, podaci o prodavnici, mapa lokacije i odgovori na najčešća pitanja.
